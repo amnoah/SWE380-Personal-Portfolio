@@ -12,7 +12,10 @@ const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
 
 // sidebar toggle functionality for mobile
-sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
+sidebarBtn.addEventListener("click", function () {
+  elementToggleFunc(sidebar);
+  this.setAttribute("aria-expanded", sidebar.classList.contains("active") ? "true" : "false");
+});
 
 
 
@@ -28,9 +31,18 @@ const modalTitle = document.querySelector("[data-modal-title]");
 const modalText = document.querySelector("[data-modal-text]");
 
 // modal toggle function
-const testimonialsModalFunc = function () {
-  modalContainer.classList.toggle("active");
-  overlay.classList.toggle("active");
+let lastModalTrigger = null;
+
+const testimonialsModalFunc = function (open) {
+  const isOpen = typeof open === "boolean" ? open : !modalContainer.classList.contains("active");
+  modalContainer.classList.toggle("active", isOpen);
+  overlay.classList.toggle("active", isOpen);
+  modalContainer.setAttribute("aria-hidden", isOpen ? "false" : "true");
+  if (isOpen) {
+    modalCloseBtn.focus();
+  } else if (lastModalTrigger) {
+    lastModalTrigger.focus();
+  }
 }
 
 // add click event to all modal items
@@ -44,14 +56,30 @@ for (let i = 0; i < testimonialsItem.length; i++) {
     modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
 
     testimonialsModalFunc();
+  modalContainer.setAttribute("aria-hidden", "false");
+  modalCloseBtn.focus();
 
+  });
+
+  testimonialsItem[i].addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      this.click();
+    }
   });
 
 }
 
 // add click event to modal close button
-modalCloseBtn.addEventListener("click", testimonialsModalFunc);
-overlay.addEventListener("click", testimonialsModalFunc);
+modalCloseBtn.addEventListener("click", function () { testimonialsModalFunc(false); });
+overlay.addEventListener("click", function () { testimonialsModalFunc(false); });
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape" && modalContainer.classList.contains("active")) {
+    event.preventDefault();
+    testimonialsModalFunc(false);
+  }
+});
 
 
 
@@ -61,7 +89,10 @@ const selectItems = document.querySelectorAll("[data-select-item]");
 const selectValue = document.querySelector("[data-selecct-value]");
 const filterBtn = document.querySelectorAll("[data-filter-btn]");
 
-select.addEventListener("click", function () { elementToggleFunc(this); });
+select.addEventListener("click", function () {
+  elementToggleFunc(this);
+  this.setAttribute("aria-expanded", this.classList.contains("active") ? "true" : "false");
+});
 
 // add event in all select items
 for (let i = 0; i < selectItems.length; i++) {
@@ -70,6 +101,7 @@ for (let i = 0; i < selectItems.length; i++) {
     let selectedValue = this.innerText.toLowerCase();
     selectValue.innerText = this.innerText;
     elementToggleFunc(select);
+    select.setAttribute("aria-expanded", "false");
     filterFunc(selectedValue);
 
   });
@@ -153,10 +185,12 @@ for (let i = 0; i < navigationLinks.length; i++) {
     }
 
     for (let i = 0; i < navigationLinks.length; i++) {
-      navigationLinks[i].classList.toggle("active", navigationLinks[i] === this);
+      const isActive = navigationLinks[i] === this;
+      navigationLinks[i].classList.toggle("active", isActive);
+      navigationLinks[i].setAttribute("aria-current", isActive ? "page" : "false");
     }
 
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
   });
 }

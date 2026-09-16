@@ -27,11 +27,13 @@
 
 <body>
 
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <!--
     - #MAIN
   -->
 
-  <main>
+  <main id="main-content">
 
     <!--
       - #SIDEBAR
@@ -51,7 +53,7 @@
           <p class="title">Computer Science Student</p>
         </div>
 
-        <button class="info_more-btn" data-sidebar-btn>
+        <button class="info_more-btn" type="button" data-sidebar-btn aria-expanded="false" aria-controls="sidebar-links">
           <span>Show Links</span>
 
           <ion-icon name="chevron-down"></ion-icon>
@@ -59,7 +61,7 @@
 
       </div>
 
-      <div class="sidebar-info_more">
+      <div class="sidebar-info_more" id="sidebar-links">
 
         <div class="separator"></div>
 
@@ -111,12 +113,12 @@
         - #NAVBAR
       -->
 
-      <nav class="navbar">
+      <nav class="navbar" aria-label="Primary navigation">
 
         <ul class="navbar-list">
 
           <li class="navbar-item">
-            <button class="navbar-link active" type="button" data-nav-link>About</button>
+            <button class="navbar-link active" type="button" data-nav-link aria-current="page">About</button>
           </li>
 
           <li class="navbar-item">
@@ -139,10 +141,10 @@
         - #ABOUT
       -->
 
-      <article class="about  active" data-page="about">
+      <article class="about active" data-page="about" aria-labelledby="about-title">
 
         <header>
-          <h2 class="h2 article-title">About me</h2>
+          <h2 class="h2 article-title" id="about-title">About me</h2>
         </header>
 
         <section class="about-text">
@@ -253,7 +255,7 @@
           <ul class="testimonials-list has-scrollbar">
 
             <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
+              <div class="content-card" data-testimonials-item role="button" tabindex="0" aria-haspopup="dialog">
 
                 <figure class="testimonials-avatar-box">
                   <img src="./assets/images/avatar-1.png" alt="Daniel lewis" width="60" data-testimonials-avatar>
@@ -275,7 +277,7 @@
             </li>
 
             <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
+              <div class="content-card" data-testimonials-item role="button" tabindex="0" aria-haspopup="dialog">
 
                 <figure class="testimonials-avatar-box">
                   <img src="./assets/images/avatar-2.png" alt="Jessica miller" width="60" data-testimonials-avatar>
@@ -297,7 +299,7 @@
             </li>
 
             <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
+              <div class="content-card" data-testimonials-item role="button" tabindex="0" aria-haspopup="dialog">
 
                 <figure class="testimonials-avatar-box">
                   <img src="./assets/images/avatar-3.png" alt="Emily evans" width="60" data-testimonials-avatar>
@@ -319,7 +321,7 @@
             </li>
 
             <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
+              <div class="content-card" data-testimonials-item role="button" tabindex="0" aria-haspopup="dialog">
 
                 <figure class="testimonials-avatar-box">
                   <img src="./assets/images/avatar-4.png" alt="Henry william" width="60" data-testimonials-avatar>
@@ -349,11 +351,11 @@
           - testimonials modal
         -->
 
-        <div class="modal-container" data-modal-container>
+        <div class="modal-container" data-modal-container role="presentation" aria-hidden="true">
 
           <div class="overlay" data-overlay></div>
 
-          <section class="testimonials-modal">
+          <section class="testimonials-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
 
             <button class="modal-close-btn" data-modal-close-btn>
               <ion-icon name="close-outline"></ion-icon>
@@ -369,7 +371,7 @@
 
             <div class="modal-content">
 
-              <h4 class="h3 modal-title" data-modal-title>Daniel lewis</h4>
+              <h4 class="h3 modal-title" id="modal-title" data-modal-title>Daniel lewis</h4>
 
               <time datetime="2021-06-14">14 June, 2021</time>
 
@@ -394,7 +396,7 @@
           - clients
         -->
 
-        <section class="clients">
+        <section class="clients" aria-hidden="true">
 
           <h3 class="h3 clients-title">Clients</h3>
 
@@ -450,10 +452,10 @@
         - #RESUME
       -->
 
-      <article class="resume" data-page="resume">
+      <article class="resume" data-page="resume" aria-labelledby="resume-title">
 
         <header>
-          <h2 class="h2 article-title">Resume</h2>
+          <h2 class="h2 article-title" id="resume-title">Resume</h2>
         </header>
 
         <section class="timeline">
@@ -540,10 +542,10 @@
         - #PORTFOLIO
       -->
 
-      <article class="portfolio" data-page="portfolio">
+      <article class="portfolio" data-page="portfolio" aria-labelledby="projects-title">
 
         <header>
-          <h2 class="h2 article-title">Projects</h2>
+          <h2 class="h2 article-title" id="projects-title">Projects</h2>
         </header>
 
         <section class="projects">
@@ -556,15 +558,15 @@
           </ul>
 
           <div class="filter-select-box">
-            <button class="filter-select" type="button" data-select>
+            <button class="filter-select" type="button" data-select aria-haspopup="listbox" aria-expanded="false">
               <div class="select-value" data-selecct-value>Select category</div>
               <div class="select-icon"><ion-icon name="chevron-down"></ion-icon></div>
             </button>
-            <ul class="select-list">
-              <li class="select-item"><button type="button" data-select-item>All</button></li>
-              <li class="select-item"><button type="button" data-select-item>Research &amp; GIS</button></li>
-              <li class="select-item"><button type="button" data-select-item>Security</button></li>
-              <li class="select-item"><button type="button" data-select-item>Infrastructure</button></li>
+            <ul class="select-list" role="listbox" aria-label="Project category">
+              <li class="select-item" role="option"><button type="button" data-select-item>All</button></li>
+              <li class="select-item" role="option"><button type="button" data-select-item>Research &amp; GIS</button></li>
+              <li class="select-item" role="option"><button type="button" data-select-item>Security</button></li>
+              <li class="select-item" role="option"><button type="button" data-select-item>Infrastructure</button></li>
             </ul>
           </div>
 
