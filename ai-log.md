@@ -40,181 +40,258 @@ Do not modify files until the plan is reviewed.
 
 ## 1. File-by-file implementation plan
 
-I’ll tailor the exact plan after reviewing the repository and resume. For a typical static portfolio, the work would be:
+I’ll keep the changes limited to the existing static front-end and first inspect the project structure and source files.
 
-### `index.html` or other HTML pages
+| File / area                            | Planned changes                                                                                                                                                                                                         |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `index.html`                           | Replace all template/generic text with resume-backed content; update headings, role/interests, project descriptions, navigation, and links; add meaningful `alt` text; correct link destinations and accessible labels. |
+| `*.html` additional pages, if present  | Replace any remaining template references and verify navigation/internal links. Remove or correct placeholder content without changing the site's overall architecture.                                                 |
+| `css/*.css` / `style.css`              | Refine typography, spacing, layout, responsive breakpoints, colors/contrast, focus states, and orientation behavior while preserving the template's overall structure.                                                  |
+| `js/*.js` / `script.js`                | Make only small front-end corrections required by the existing site, such as navigation/menu behavior or broken interactions. No analytics, tracking, external data collection, or backend functionality.               |
+| Images/assets                          | Retain appropriate existing assets where possible; update accessible alternative text. I won't add personal/private imagery unless supplied and appropriate.                                                            |
+| License / attribution files or notices | Preserve required license and attribution text unchanged.                                                                                                                                                               |
+| Configuration/build files, if present  | Inspect but avoid changes unless a small front-end correction is genuinely necessary. No new backend or data-collection dependencies.                                                                                   |
 
-- Replace all template names, biographies, roles, headings, calls to action, project descriptions, and placeholder text with resume-supported information.
-- Include:
-    - A concise introduction
-    - Current roles
-    - Professional or technical interests
-    - A skills section
-    - A small selection of projects
-    - Education and experience where appropriate
-    - LinkedIn, project, and other verified links
-- Remove unused generic sections rather than filling them with invented content.
-- Correct page navigation and external-link destinations.
-- Improve semantic structure with landmarks and logical heading levels.
-- Ensure controls and links are keyboard accessible and have meaningful labels.
-- Add useful alternative text to informative images; use empty alternative text for purely decorative images.
-- Avoid publishing private details such as a home address, personal phone number, or unnecessary identifiers.
-- Preserve all required licensing and attribution.
+### Implementation sequence
 
-### Main stylesheet, such as `css/style.css`
-
-- Adapt the existing visual system without replacing the template architecture.
-- Improve typography, spacing, hierarchy, and consistency.
-- Ensure sufficient foreground/background contrast.
-- Add or correct responsive layouts for:
-    - Narrow portrait phones
-    - Landscape phones
-    - Tablets
-    - Desktop and wide screens
-- Prevent horizontal overflow, clipped content, oversized headings, and overlapping navigation.
-- Preserve visible keyboard-focus indicators.
-- Respect reduced-motion preferences when animations are present.
-- Ensure hover-only effects also work with keyboard focus and touch input.
-
-### JavaScript files, such as `js/main.js`
-
-- Make only small front-end corrections.
-- Repair mobile navigation, section scrolling, filters, or other existing template interactions if needed.
-- Avoid adding tracking, remote data collection, accounts, or backend dependencies.
-- Confirm interactions work by keyboard and do not depend solely on pointer hover.
-- Remove obsolete code only when it is clearly unused and removal will not break template behavior.
-
-### Image and media assets
-
-- Replace generic template images with user-provided or already-authorized assets.
-- Optimize large files for web delivery while preserving acceptable quality.
-- Use suitable dimensions or responsive-image markup where practical.
-- Avoid publishing images containing private or sensitive information.
-- Retain attribution for assets whose licenses require it.
-- If no project image is available, use a text-led layout or an existing licensed visual rather than inventing project screenshots.
-
-### Site metadata and supporting files
-
-Depending on what exists:
-
-- Update the page title, description, social-sharing metadata, favicon references, and site author information.
-- Update the résumé link only if a public résumé file is provided and approved for publication.
-- Check `README.md`, license files, attribution comments, and template credits; preserve all required notices.
-- Review deployment/configuration files only for broken static paths—not to add services, analytics, or data collection.
-- Check `404.html`, manifest files, or additional pages for leftover template references.
-
-### Repository-wide review
-
-- Search all source files for generic template names, sample companies, placeholder links, dummy projects, lorem ipsum, default social handles, and unused stock content.
-- Verify relative paths and capitalization, including behavior on case-sensitive hosting.
-- Keep changes limited to content, styling, accessibility, responsive behavior, and small front-end fixes.
+1. Inventory the repository and identify every user-facing/template reference.
+2. Inspect the supplied resume and extract only information explicitly supported by it.
+3. Map resume information to the existing site sections.
+4. Identify every internal/external link and determine its intended destination from the available project/resume information.
+5. Implement content replacements.
+6. Apply responsive/accessibility styling corrections.
+7. Make only necessary JavaScript/front-end fixes.
+8. Run the test checklist below and correct failures.
+9. Re-check for leftover placeholder/template text and accidental private information.
 
 ## 2. Assumptions and risks
 
 ### Assumptions
 
-- The existing project files and resume will be provided for review.
-- Resume content is approved as the authoritative source for biography, education, experience, roles, projects, and skills.
-- Only explicitly supplied or verifiable URLs will be published.
-- Existing template libraries will remain unless they are broken, unnecessary, insecure, or incompatible with the requested changes.
-- The site will continue to be deployed as a static website.
-- Current template license and attribution terms permit customization.
+* The repository and resume will be provided in the workspace.
+* The resume is the authoritative source for personal/professional information.
+* If the resume does not contain a URL, I will **not invent one** or infer it from a person's name.
+* Existing project links will be retained only when their destinations can be established reliably.
+* Existing required license/attribution notices are intentional and will remain.
 
 ### Risks
 
-- **Missing links:** A resume may name LinkedIn, GitHub, or projects without including exact URLs. I will not infer handles or destinations.
-- **Private information:** The resume may contain an address, phone number, private email address, or internal links unsuitable for a public site. These require an explicit publication decision.
-- **Conflicting information:** Repository content and resume details may disagree. The resume will be treated as authoritative unless instructed otherwise.
-- **Limited project evidence:** Some projects may lack descriptions, screenshots, repositories, or live sites. I will include only supported facts and available links.
-- **Unlicensed media:** Resume or repository images may not have clear publication rights. Unverified assets should not be added.
-- **Template dependencies:** Removing apparent placeholders or scripts could affect navigation or layout. Existing behavior should be tested before deletion.
-- **Responsive complexity:** Highly decorative template sections can behave poorly in landscape or on narrow screens and may need simplification.
-- **Outdated “current” roles:** A dated resume may not accurately identify current roles. This must be confirmed before the site describes them as current.
-- **Automated accessibility limits:** Automated checks cannot establish full accessibility; keyboard and visual review are still necessary.
+* **Missing destinations:** A project may be mentioned without a corresponding URL. I'll leave it unlinked or use an appropriate existing local destination rather than fabricate one.
+* **Ambiguous resume information:** I won't resolve ambiguity by guessing; I'll flag it for you.
+* **Template leftovers:** Generic text can occur in hidden elements, metadata, navigation, or footer content, so the whole project needs to be searched.
+* **Responsive regressions:** Changing spacing or typography can affect both portrait and landscape layouts, so both orientations need explicit testing.
+* **Accessibility regressions:** Visual changes can inadvertently reduce contrast or make focus states harder to see; these will be tested explicitly.
 
 ## 3. Proposed test checklist
 
 ### Content
 
-- [ ] Every generic name, role, biography, project, company, quote, statistic, and call to action has been replaced or removed.
-- [ ] Every factual claim is supported by the supplied resume or explicit user information.
-- [ ] Current roles are accurately identified.
-- [ ] Interests are included using user-approved wording.
-- [ ] At least two supported projects are presented, if the source material provides them.
-- [ ] No education, employment, awards, links, or technical skills have been invented.
-- [ ] No private information is exposed.
-- [ ] Required license notices and attribution remain intact.
+* [ ] No generic/template placeholder text remains.
+* [ ] Current roles match the resume.
+* [ ] Interests match the resume.
+* [ ] At least two resume-supported projects are represented.
+* [ ] No education, employment, awards, skills, or other facts were invented.
+* [ ] No private/sensitive information was accidentally exposed.
 
 ### Links
 
-- [ ] Header and in-page navigation links reach the intended sections.
-- [ ] LinkedIn and other profile links use exact approved URLs.
-- [ ] Project repository and live-site links reach the correct projects.
-- [ ] Email links, if included, use an approved public address.
-- [ ] No placeholder `#`, example-domain, or template-author links remain unless intentionally required.
-- [ ] Relative paths work from the deployed site location.
-- [ ] Link text describes the destination—for example, “View ProjectName source code,” not “Click here.”
-- [ ] External links do not create inaccessible or surprising behavior.
+* [ ] Every visible link has meaningful link text.
+* [ ] Internal links resolve to the intended section/page.
+* [ ] LinkedIn points to the exact supplied LinkedIn destination.
+* [ ] Project links point to the supplied project sites.
+* [ ] No placeholder `#`, template, or dead external links remain unless intentionally used for in-page navigation.
+* [ ] External links behave appropriately and accessibly.
 
-### Responsive layout
+### Visual/responsive
 
-Test at minimum:
+* [ ] Desktop landscape layout works.
+* [ ] Desktop portrait layout works.
+* [ ] Mobile portrait layout works.
+* [ ] Mobile landscape layout works.
+* [ ] Text doesn't overflow horizontally.
+* [ ] Images don't distort or overflow their containers.
+* [ ] Navigation remains usable on narrow screens.
+* [ ] Spacing and typography remain readable at different viewport sizes.
 
-- [ ] 320 × 568 portrait
-- [ ] 375 × 667 portrait
-- [ ] 667 × 375 landscape
-- [ ] 768 × 1024 tablet portrait
-- [ ] 1024 × 768 tablet landscape
-- [ ] 1440 × 900 desktop
-- [ ] A wide desktop viewport
+### Accessibility
 
-At each size:
+* [ ] Sufficient text/background contrast.
+* [ ] Keyboard navigation reaches all interactive elements.
+* [ ] Focus indicators are visible.
+* [ ] Heading hierarchy is sensible.
+* [ ] Images have useful alternative text where needed.
+* [ ] Decorative images aren't unnecessarily announced by screen readers.
+* [ ] Links/buttons have meaningful accessible names.
+* [ ] No interaction depends exclusively on hover.
+* [ ] Mobile controls have usable touch targets.
 
-- [ ] No unintended horizontal scrolling.
-- [ ] Text remains readable without zooming.
-- [ ] Navigation remains usable.
-- [ ] Images scale without distortion.
-- [ ] Cards, buttons, and headings do not overlap or clip.
-- [ ] Long URLs, project names, and role titles wrap safely.
-- [ ] Touch targets are reasonably sized and separated.
-- [ ] Important content is not hidden because of screen orientation.
+### Technical
 
-### Accessibility and interaction
-
-- [ ] The document has a descriptive title and valid language declaration.
-- [ ] Heading levels form a logical hierarchy.
-- [ ] Header, navigation, main content, and footer use semantic landmarks.
-- [ ] All interactive elements are reachable and operable by keyboard.
-- [ ] Focus indicators are clearly visible.
-- [ ] Focus order follows the visual and reading order.
-- [ ] A keyboard user is not trapped in the mobile menu or other interface.
-- [ ] Informative images have useful alternative text.
-- [ ] Decorative images use empty alternative text or appropriate CSS treatment.
-- [ ] Text and controls meet appropriate Web Content Accessibility Guidelines contrast targets.
-- [ ] Information is not conveyed by color alone.
-- [ ] Animation respects `prefers-reduced-motion`.
-- [ ] The page remains usable at 200% browser zoom.
-- [ ] Browser-console review shows no significant errors.
-
-### Technical and deployment
-
-- [ ] HTML and CSS validation reveals no material errors.
-- [ ] JavaScript initializes without runtime errors.
-- [ ] All local files load without 404 errors.
-- [ ] Asset paths work with case-sensitive hosting.
-- [ ] No backend, login, analytics, tracker, cookies, or external data collection has been added.
-- [ ] No secrets, unpublished documents, source maps containing sensitive data, or private contact data are committed.
-- [ ] Existing license and attribution files/comments are preserved.
-- [ ] A production/deployed build receives a final link and layout check.
+* [ ] HTML structure is valid/sensible.
+* [ ] CSS and JavaScript load without errors.
+* [ ] Browser console has no new errors.
+* [ ] No backend, login, analytics, tracker, or external data-collection mechanism was introduced.
+* [ ] Required license/attribution remains intact.
+* [ ] All modified files remain compatible with the existing static-site setup.
 
 ## 4. Questions that must be answered before implementation
 
-1. **Please provide the portfolio project files or repository and the resume to use as the source of truth.**
-2. **Which roles are current as of September 2026, and what exact interests should the site emphasize?**
-3. **What are the exact approved public URLs for LinkedIn and any GitHub, project repository, live demo, or personal-domain links?**
-4. **Which two or more projects should receive priority, and are their descriptions and technologies documented in the resume or repository?**
-5. **Which contact details, if any, are approved for public display?** In particular, should the site publish an email address, résumé PDF, or neither?
-6. **Are all supplied profile photos, project images, logos, and screenshots authorized for public use?**
-7. **Where will the static site be hosted, and does it use a root domain or subdirectory?** This affects asset and navigation paths.
+**No additional questions are necessary if the repository and resume are already available.** The key prerequisite is that I need access to those files so I can distinguish documented information from anything that would require guessing.
 
-No files will be modified until this plan has been reviewed and the required source materials and answers are available.
+If either is missing, please provide:
+
+1. **The portfolio project files/repository**, and
+2. **Your current resume**.
+
+I will **not modify any files until you review and approve this plan.**
+
+
+
+
+
+-- Prompt --
+
+Attached is the site's HTML, JS, and CSS, and a copy of my resume.
+
+Update the portfolio's identity and navigation.
+
+
+
+
+
+-- AI Response --
+
+Updated the portfolio’s **identity and navigation** based strictly on your resume.
+
+### Changes made
+
+* Replaced the template identity with **Noah Lutz**.
+* Changed the role label to **Computer Science Student**, supported by your resume.
+* Updated the page title to **Noah Lutz — Computer Science Portfolio**.
+* Removed the template's fake email, phone number, birthday, and Sacramento location rather than exposing or inventing personal information.
+* Replaced the placeholder Facebook/Twitter/Instagram links with your LinkedIn profile. Your resume supplies the LinkedIn destination.
+* Changed the navigation from **About / Resume / Portfolio / Blog / Contact** to **About / Resume / Projects**. The original navigation included several template-only sections.
+* Updated the JavaScript so **Projects** correctly opens the existing portfolio/projects section instead of breaking because the navigation and page counts differ.
+* Added accessible link labeling and preserved the existing CSS; no styling changes were necessary for this identity/navigation pass.
+* Verified the JavaScript syntax successfully.
+
+### Files
+
+[Download the updated portfolio files](sandbox:/mnt/data/noah-lutz-portfolio-identity-nav.zip)
+
+The ZIP contains:
+
+* `index.html`
+* `script.js`
+* `style.css` (unchanged)
+
+I have **not yet rewritten the About, Resume, Portfolio, Blog, or Contact content** beyond the identity/navigation changes above.
+
+
+
+
+
+-- Prompt --
+
+Add projects and experience content
+
+
+
+
+
+-- AI Response --
+
+Added the resume-backed **experience and projects** content.
+
+* Updated Education and Experience on the Resume page.
+* Added all three documented projects:
+
+    * Genesee County Medical History Project
+    * BetterAnticheat — linked to the provided GitHub repository
+    * Doom Node — identified as a private project, with no fabricated link
+* Replaced the template project filters with **Research & GIS, Security, and Infrastructure**.
+* Removed the template's fake skill percentages and replaced them with resume-backed skills.
+* Added project descriptions and non-fabricated visual placeholders.
+* Verified the JavaScript syntax and packaged the updated files.
+
+[Download the updated portfolio files](sandbox:/mnt/data/noah-lutz-portfolio-content.zip)
+
+
+
+
+
+-- Prompt --
+
+Improve responsive layout and accessibility
+
+
+
+
+
+-- AI Response --
+
+Improved the portfolio’s responsive layout and accessibility.
+
+### Changes
+
+* Added a **Skip to main content** link.
+* Added clearer semantic navigation and `aria-current` state.
+* Improved keyboard focus visibility throughout the site.
+* Made the sidebar toggle expose its expanded/collapsed state.
+* Made the testimonial cards keyboard accessible.
+* Added dialog semantics, Escape-to-close, and focus handling for the modal.
+* Added accessible behavior to the mobile project-category selector.
+* Increased mobile navigation/touch targets to improve usability.
+* Improved small-screen spacing, typography, wrapping, and project-card layout.
+* Added support for `prefers-reduced-motion`.
+* Prevented horizontal overflow on narrow screens.
+* Added responsive adjustments for phone, tablet, and desktop widths.
+* Verified `script.js` with Node syntax checking.
+
+[Download the responsive and accessibility update](sandbox:/mnt/data/noah-lutz-portfolio-responsive-a11y.zip)
+
+
+
+
+
+-- Prompt --
+
+Replace about me content with appropriate info
+
+
+
+
+
+-- AI Response --
+
+Updated the **About Me** section with resume-backed information about your Computer Science studies, healthcare/education IT experience, systems work, data visualization, GIS, and interest in using computing to address real-world social issues.
+
+The updated file is at `/mnt/data/index.html`.
+
+
+
+
+
+-- Prompt --
+
+Remove unused content on that page
+
+
+
+
+
+-- AI Response --
+
+Done. I removed the unused template content, including:
+
+* Generic “What I’m Doing” services
+* Fake testimonials and testimonial modal
+* Fake client logos
+* Unused Blog page
+* Unused Contact page
+* Related JavaScript for removed features
+* Cleaned up navigation `aria-current` handling
+
+The site now focuses on **About, Resume, and Projects**.
+
+[Download the cleaned portfolio ZIP](sandbox:/mnt/data/noah-lutz-portfolio-cleaned.zip)
